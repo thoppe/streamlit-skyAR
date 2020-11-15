@@ -6,6 +6,9 @@ from PIL import Image
 from pathlib import Path
 from cv2.ximgproc import guidedFilter
 
+# Streamlit sharing is CPU only
+device = torch.device('cpu')
+
 st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",  # Can be "auto", "expanded", "collapsed"
@@ -47,8 +50,6 @@ for key in bool_cols:
     mods[key] = st.sidebar.checkbox(key, args[key])
 
 
-device = "cpu"
-
 # Hosted on my personal account until I figure something else out
 cloud_model_location = "1PmsUezmJGwTQP51yTMsjLGe2okdo-yxr"
 
@@ -65,8 +66,7 @@ def load_model():
             from GD_download import download_file_from_google_drive
             download_file_from_google_drive(cloud_model_location, f_checkpoint)
     
-    model = torch.load(f_checkpoint)
-    model.to(device)
+    model = torch.load(f_checkpoint, map_location=device)
     model.eval()
     return model
 
