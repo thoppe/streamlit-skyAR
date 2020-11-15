@@ -3,6 +3,7 @@ import torch
 import cv2
 import numpy as np
 from PIL import Image
+from pathlib import Path
 from cv2.ximgproc import guidedFilter
 
 st.set_page_config(
@@ -48,10 +49,18 @@ for key in bool_cols:
 
 device = "cpu"
 
+# Hosted on my personal account until I figure something else out
+cloud_model_location = "1PmsUezmJGwTQP51yTMsjLGe2okdo-yxr"
 
 @st.cache
 def load_model():
-    f_checkpoint = "model/skyAR_coord_resnet50.pt"
+    f_checkpoint = Path("model/skyAR_coord_resnet50.pt")
+
+    if not f_checkpoint.exists():
+        with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
+            from GD_download import download_file_from_google_drive
+            download_file_from_google_drive(cloud_model_location, f_checkpoint)
+    
     model = torch.load(f_checkpoint)
     model.to(device)
     model.eval()

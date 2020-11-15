@@ -6,3 +6,7 @@ numpy
 torch
 torchvision
 pillow
+
+
+# Needed to download model
+requests
