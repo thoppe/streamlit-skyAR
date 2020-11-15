@@ -54,6 +54,10 @@ cloud_model_location = "1PmsUezmJGwTQP51yTMsjLGe2okdo-yxr"
 
 @st.cache
 def load_model():
+
+    save_dest = Path('model')
+    save_dest.mkdir(exist_ok=True)
+    
     f_checkpoint = Path("model/skyAR_coord_resnet50.pt")
 
     if not f_checkpoint.exists():
