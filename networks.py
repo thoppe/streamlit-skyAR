@@ -1,5 +1,5 @@
 '''
-Copied directly from https://github.com/jiupinjia/SkyAR
+Copied almost directly from https://github.com/jiupinjia/SkyAR
 Needed to load the model using pytorch.
 '''
 
@@ -10,8 +10,7 @@ from torch.nn import init
 import functools
 from torchvision import models
 import math
-import utils
-import numpy as np
+
 
 # Decide which device we want to run on
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

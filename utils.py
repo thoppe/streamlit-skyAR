@@ -1,11 +1,10 @@
 '''
-Copied directly from https://github.com/jiupinjia/SkyAR
+Copied almost directly from https://github.com/jiupinjia/SkyAR
 Needed to load the model using pytorch.
 '''
 
 
 import numpy as np
-import matplotlib.pyplot as plt
 import cv2
 from skimage.measure import compare_ssim as sk_cpt_ssim
 
@@ -17,7 +16,7 @@ import torch
 
 torch.cuda.current_device()
 import torchvision.transforms.functional as TF
-from torch.utils.data import Dataset, DataLoader, Subset
+from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils
 
 import json

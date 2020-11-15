@@ -1,7 +1,7 @@
 opencv-contrib-python
+scikit-image
 
-matplotlib
-scipy
+streamlit
 numpy
 torch
 torchvision
