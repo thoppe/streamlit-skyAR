@@ -1,3 +1,9 @@
+'''
+Copied directly from https://github.com/jiupinjia/SkyAR
+Needed to load the model using pytorch.
+'''
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2

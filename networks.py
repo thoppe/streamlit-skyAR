@@ -1,12 +1,16 @@
+'''
+Copied directly from https://github.com/jiupinjia/SkyAR
+Needed to load the model using pytorch.
+'''
+
+
 import torch
 import torch.nn as nn
 from torch.nn import init
 import functools
 from torchvision import models
-from torch.optim import lr_scheduler
 import math
 import utils
-import matplotlib.pyplot as plt
 import numpy as np
 
 # Decide which device we want to run on

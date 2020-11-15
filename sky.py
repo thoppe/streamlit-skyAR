@@ -7,21 +7,22 @@ from cv2.ximgproc import guidedFilter
 
 st.set_page_config(
     layout="wide",
-    initial_sidebar_state="auto",  # Can be "auto", "expanded", "collapsed"
+    initial_sidebar_state="expanded",  # Can be "auto", "expanded", "collapsed"
     page_title="SkyAR adapted by metasemantic",
 )
 
+st.sidebar.title("skyAR")
+
 args = {
-    "input_mode": "video",
-    "datadir": "./test_videos/canyon.mp4",
-    "skybox": "skybox/jeremy-bishop-DLICfSD33as-unsplash.jpg",
+    "f_skybox" : "sample_images/photo-1439246854758-f686a415d9da.webp",
+    "f_landscape" : "sample_images/christopher-zarriello-Pq3AM1OV0fM-unsplash.jpg",
     "in_size_w": 384,
     "in_size_h": 384,
     "out_size_w": 845,
     "out_size_h": 480,
     "skybox_center_crop": 1.0,
     "auto_light_matching": False,
-    "relighting_factor": 0.8,
+    "relighting_factor": 0.5,
     "recoloring_factor": 0.5,
     "halo_effect": False,
 }
@@ -35,8 +36,10 @@ slider_cols = [
 for key in slider_cols:
     mods[key] = st.sidebar.slider(key, 0.0, 1.0, args[key])
 
+# Disable this for now
 key = "skybox_center_crop"
-mods[key] = st.sidebar.slider(key, 1.0, 1.2, args[key])
+#mods[key] = st.sidebar.slider(key, 1.0, 1.2, args[key])
+mods[key] = args[key]
 
 bool_cols = ["auto_light_matching", "halo_effect"]
 for key in bool_cols:
@@ -179,30 +182,21 @@ def halo(syneth, skybg, skymask):
     return syneth_with_halo
 
 
-mod_sky_img = st.sidebar.file_uploader("Upload Sky Image")
+mod_sky_img = st.sidebar.file_uploader("Upload Sky Image 🌧️")
 
-if mod_sky_img is None:
-    f_skybox = "sample_images/jeremy-bishop-DLICfSD33as-unsplash.jpg"
-else:
-    f_skybox = mod_sky_img
-
+f_skybox = args["f_skybox"] if mod_sky_img is None else mod_sky_img
 img_sky = load_skybox_image(f_skybox)
 
 
-mod_landscape_img = st.sidebar.file_uploader("Upload Landscape Image")
-
-if mod_landscape_img is None:
-    f_input_image = "sample_images/" "christopher-zarriello-Pq3AM1OV0fM-unsplash.jpg"
-else:
-    f_input_image = mod_landscape_img
+mod_landscape_img = st.sidebar.file_uploader("Upload Landscape Image 🏙️")
+f_input_image = (
+    args["f_landscape"] if mod_landscape_img is None else mod_landscape_img)
 
 img_in = load_output_image(f_input_image)
 
 
 model = load_model()
-
 mask = compute_skymask(img_in)
-
 
 # Ignore optical flow for a single image
 img_light = relighting(img_in, img_sky, mask)
@@ -221,4 +215,13 @@ synth = img_light * (1 - mask) + img_sky * mask
 if mods["halo_effect"]:
     synth = halo(synth, img_sky, mask)
 
-st.image(synth)
+
+col1, col2 = st.beta_columns([2,1])
+col1.image(synth, use_column_width=True)
+col2.markdown('''Modified demo of [SkyAR](https://github.com/jiupinjia/SkyAR). Streamlit demo built with :blue_heart: by [@metasemantic](https://twitter.com/metasemantic), source code on [github](https://github.com/thoppe/streamlit-skyAR).
+
+Photos by [Christopher Zarriello](https://unsplash.com/@chris_zarriello?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText) and [Sérgio Rola](https://unsplash.com/@sergio_rola?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText).
+
+Go to [unsplash](https://unsplash.com/s/photos/sky) for more photos!
+''')
+
