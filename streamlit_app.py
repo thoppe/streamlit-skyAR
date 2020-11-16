@@ -94,7 +94,7 @@ def tile_skybox_img(img):
     return img
 
 
-@st.cache
+@st.cache(ttl=3600, max_entries=10)
 def load_skybox_image(f_img):
 
     if isinstance(f_img, str):
@@ -111,7 +111,7 @@ def load_skybox_image(f_img):
     return imgx
 
 
-@st.cache
+@st.cache(ttl=3600, max_entries=10)
 def load_output_image(f_img):
 
     if isinstance(f_img, str):
@@ -126,7 +126,7 @@ def load_output_image(f_img):
     return img
 
 
-@st.cache
+@st.cache(ttl=3600, max_entries=10)
 def compute_skymask(img):
     h, w, c = img.shape
     imgx = cv2.resize(img, (args["in_size_w"], args["in_size_h"]))
@@ -154,7 +154,7 @@ def compute_skymask(img):
     return refined_skymask
 
 
-@st.cache
+@st.cache(ttl=3600, max_entries=10)
 def relighting(img, skybg, skymask):
 
     # color matching, reference: skybox_img
@@ -182,7 +182,7 @@ def relighting(img, skybg, skymask):
     return img
 
 
-@st.cache
+@st.cache(ttl=3600, max_entries=10)
 def halo(syneth, skybg, skymask):
 
     # reflection
