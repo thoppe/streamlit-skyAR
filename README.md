@@ -1,4 +1,4 @@
-# Streamlit SkyAR
+# Streamlit SkyAR [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/thoppe/streamlit-skyar)
 _[Streamlit](https://www.streamlit.io/) demo of the [SkyAR](https://github.com/jiupinjia/SkyAR) model_
 
 ## [See it live on Streamlit Sharing!](https://share.streamlit.io/thoppe/streamlit-skyar)
